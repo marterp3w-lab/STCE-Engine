@@ -1,50 +1,38 @@
 #include "parser.h"
-#include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
-using namespace std;
-
-Citta* caricaMappaTSPLIB(const string& nome_file, int& N) {
-    ifstream file(nome_file);
+Citta* caricaMappaTSPLIB(const std::string& nome_file, int& N) {
+    std::ifstream file(nome_file);
     if (!file.is_open()) {
-        cerr << "ERRORE CRITICO: Impossibile aprire il file " << nome_file << endl;
-        N = 0;
+        std::cerr << "Errore: impossibile aprire il file " << nome_file << std::endl;
         return nullptr;
     }
 
-    string riga;
-    bool leggendo_coordinate = false;
-    vector<Citta> citta_temporanee;
+    std::string linea;
+    bool sezione_coordinate = false;
+    Citta* citta = nullptr;
+    int count = 0;
 
-    while (getline(file, riga)) {
-        if (riga.find("EOF") != string::npos) break;
-        if (riga.find("NODE_COORD_SECTION") != string::npos) {
-            leggendo_coordinate = true;
+    while (std::getline(file, linea)) {
+        if (linea.find("DIMENSION") != std::string::npos) {
+            size_t pos = linea.find(":");
+            N = std::stoi(linea.substr(pos + 1));
+            citta = new Citta[N];
+        }
+        if (linea.find("NODE_COORD_SECTION") != std::string::npos) {
+            sezione_coordinate = true;
             continue;
         }
+        if (linea.find("EOF") != std::string::npos) break;
 
-        if (leggendo_coordinate) {
-            istringstream iss(riga);
-            int id; float x, y;
-            if (iss >> id >> x >> y) {
-                Citta nuova_citta;
-                nuova_citta.id = id - 1; 
-                nuova_citta.nome = "Nodo_" + to_string(id);
-                nuova_citta.x = x;
-                nuova_citta.y = y;
-                nuova_citta.prossimo = nullptr;
-                citta_temporanee.push_back(nuova_citta);
-            }
+        if (sezione_coordinate && count < N) {
+            std::stringstream ss(linea);
+            ss >> citta[count].id >> citta[count].x >> citta[count].y;
+            citta[count].prossimo = nullptr;
+            count++;
         }
     }
-    file.close();
-
-    N = citta_temporanee.size();
-    if (N == 0) return nullptr;
-
-    Citta* citta = new Citta[N];
-    for (int i = 0; i < N; i++) citta[i] = citta_temporanee[i];
-
     return citta;
 }

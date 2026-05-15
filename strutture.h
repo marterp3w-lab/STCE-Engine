@@ -6,9 +6,8 @@
 struct Citta {
     int id;
     std::string nome;
-    float x;
-    float y;
-    Citta* prossimo; 
+    float x, y;
+    Citta* prossimo;
 };
 
 struct Triangolo {

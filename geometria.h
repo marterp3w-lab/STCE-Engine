@@ -3,7 +3,7 @@
 
 #include "strutture.h"
 
-float calcolaDistanza(Citta A, Citta B);
-float calcolaPeso(Citta attuale, Citta bersaglio);
+float calcolaDistanza(const Citta& a, const Citta& b);
+float calcolaPeso(const Citta& a, const Citta& b);
 
 #endif
