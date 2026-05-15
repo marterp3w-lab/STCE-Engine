@@ -26,5 +26,5 @@ Tested on an Intel CPU against a standard Nearest Neighbor implementation using 
 Compile the source code using standard `g++` with the `-O3` optimization flag. The engine accepts custom random maps for simulation or standard `.tsp` coordinate files.
 
 ```bash
-g++ main.cpp geometria.cpp motore_stce.cpp parser.cpp -O3 -std=c++14 -o stce_engine
-./stce_engine
+g++ src/main.cpp src/geometria.cpp src/motore_stce.cpp src/parser.cpp -O3 -std=c++14 -o stce_engine.exe
+./stce_engine.exe
