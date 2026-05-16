@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 # 1. Carica le coordinate dal file CSV generato dal tuo motore C++
 print("Caricamento rotta in corso...")
-df = pd.read_csv('../rotta_stce.csv') # Cerca il file nella cartella superiore
+df = pd.read_csv('rotta_stce.csv')
 
 X = df['X'].tolist()
 Y = df['Y'].tolist()
